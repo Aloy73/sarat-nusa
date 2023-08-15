@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -21,23 +21,23 @@ const Tab = createBottomTabNavigator();
 
 export default function HomeNavigation() {
   return (
-    <Stack.Navigator screenOptions={{headerShown:false}}>
-        <Stack.Screen name="tab1" component={Tab1} ></Stack.Screen>
-        <Stack.Screen name="home" component={Home} ></Stack.Screen>
-        <Stack.Screen name="course-detail" component={CourseDetails} ></Stack.Screen>
-        <Stack.Screen name="course-chapter"
-        component={CourseChapter}/>
-         <Stack.Screen name="play-video"
-        component={PlayVideo}/>
-        {/* Screen Card */}
-        <Stack.Screen name="Submit" component={Submit}></Stack.Screen>
-        <Stack.Screen name="Ujian" component={Ujian}></Stack.Screen>
-        <Stack.Screen name="Riwayat" component={Riwayat}></Stack.Screen>
-        <Stack.Screen name="Hasil" component={Hasil}></Stack.Screen>
-        <Stack.Screen name="Notif" component={Notif}></Stack.Screen>
-        
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="tab1" component={Tab1} ></Stack.Screen>
+      <Stack.Screen name="home" component={Home} ></Stack.Screen>
+      <Stack.Screen name="course-detail" component={CourseDetails} ></Stack.Screen>
+      <Stack.Screen name="course-chapter"
+        component={CourseChapter} />
+      <Stack.Screen name="play-video"
+        component={PlayVideo} />
+      {/* Screen Card */}
+      <Stack.Screen name="Submit" component={Submit}></Stack.Screen>
+      <Stack.Screen name="Ujian" component={Ujian}></Stack.Screen>
+      <Stack.Screen name="Riwayat" component={Riwayat}></Stack.Screen>
+      <Stack.Screen name="Hasil" component={Hasil}></Stack.Screen>
+      <Stack.Screen name="Notif" component={Notif}></Stack.Screen>
+
     </Stack.Navigator>
-    
+
   )
 }
 
@@ -46,41 +46,77 @@ export function Tab1() {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarStyle: { backgroundColor: '#FFFFFF' }, // Ubah warna latar belakang tab sesuai kebutuhan
+
       }}
-      activeColor="#F16877" // Ubah warna teks dan ikon tab aktif sesuai kebutuhan
-      inactiveColor="#9e9e9e" // Ubah warna teks dan ikon tab tidak aktif sesuai kebutuhan
     >
       <Tab.Screen
         name="Home"
         component={Home}
-        options={{
-          tabBarLabel: 'Home', // Ubah label tab sesuai kebutuhan
-          tabBarIcon: ({ color }) => (
-            <FontAwesome5 name="home" size={20} color={color} />
-          ), // Ganti ikon tab sesuai kebutuhan (gunakan ikon dari FontAwesome atau ikon lain yang Anda inginkan)
-        }}
+        options={({ route }) => ({
+          tabBarLabel: ({ focused }) => (
+            <TabLabel label="Home" iconName="home" isFocused={focused} />
+          ),
+          tabBarIcon: ({ focused }) => (
+            <TabIcon iconName="home" isFocused={focused} />
+          ),
+        })}
       />
+   
       <Tab.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          tabBarLabel: 'Profile', // Ubah label tab sesuai kebutuhan
-          tabBarIcon: ({ color }) => (
-            <FontAwesome5 name="user-alt" size={20} color={color} />
-          ), // Ganti ikon tab sesuai kebutuhan (gunakan ikon dari FontAwesome atau ikon lain yang Anda inginkan)
-        }}
-      />
-      <Tab.Screen
-        name="Keluar"
+        name="Logout"
         component={Login}
-        options={{
-          tabBarLabel: 'Logout', // Ubah label tab sesuai kebutuhan
-          tabBarIcon: ({ color }) => (
-            <FontAwesome5 name="sign-out-alt" size={20} color={color} />
-          ), // Ganti ikon tab sesuai kebutuhan (gunakan ikon dari FontAwesome atau ikon lain yang Anda inginkan)
-        }}
+        options={({ route }) => ({
+          tabBarLabel: ({ focused }) => (
+            <TabLabel label="Logout" iconName="sign-out-alt" isFocused={focused} />
+          ),
+          tabBarIcon: ({ focused }) => (
+            <TabIcon iconName="sign-out-alt" isFocused={focused} />
+          ),
+        })}
       />
     </Tab.Navigator>
   );
 }
+
+const TabIcon = ({ iconName, isFocused }) => {
+  const iconColor = isFocused ? '#FFFFFF' : '#9e9e9e';
+  const backgroundColor = isFocused ? '#F16877' : 'transparent';
+
+  return (
+    <View style={[styles.tabIconContainer, { backgroundColor }]}>
+      <FontAwesome5 name={iconName} size={20} color={iconColor} />
+    </View>
+  );
+};
+
+const TabLabel = ({ label, isFocused }) => {
+  const textColor = isFocused ? '#F16877' : '#9e9e9e';
+
+  return (
+    <View style={styles.tabLabelContainer}>
+      {/* <FontAwesome5 name={iconName} size={20} color={textColor} /> */}
+      <Text style={[styles.tabLabelText, { color: textColor }]}>{label}</Text>
+    </View>
+  );
+};
+
+const styles = {
+  tabIconContainer: {
+    marginBottom: 10,
+    marginTop: 20,
+    width: 70,
+    height: 70,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  tabLabelContainer: {
+    alignItems: 'center',
+  },
+  tabLabelText: {
+    fontSize: 12,
+    marginTop: 8,
+    marginBottom: 10,
+
+  },
+};

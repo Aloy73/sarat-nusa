@@ -2,9 +2,14 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import Modal from 'react-native-modal';
 import { FontAwesome } from '@expo/vector-icons';
+import { createStackNavigator } from '@react-navigation/stack';
 import Colors from '../Shared/Colors';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 
 const FormInput = () => {
+    const [title, SetTitle] = useState('Ujian Sarat')
     const [questionOne, setQuestionOne] = useState('');
     const [questionTwo, setQuestionTwo] = useState('');
     const [questionThree, setQuestionThree] = useState('');
@@ -15,12 +20,34 @@ const FormInput = () => {
     const [questionEight, setQuestionEight] = useState('');
     const [questionNine, setQuestionNine] = useState('');
     const [isModalVisible, setModalVisible] = useState(false);
+    const Stack = createStackNavigator();
+
+    const sendFormDataToFakeAPI = async (formData) => {
+        try {
+            const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+    
+            const responseData = await response.json();
+    
+            return responseData;
+        } catch (error) {
+            console.error('Error sending data to Fake API:', error);
+            throw error;
+        }
+    };
 
     const handleSendMessage = () => {
         setModalVisible(true);
     };
-    const handleConfirmSendMessage = () => {
-        console.log('Jawaban dikirim:', {
+
+    const handleConfirmSendMessage = async () => {
+        const formData = {
+            title,
             questionOne,
             questionTwo,
             questionThree,
@@ -29,8 +56,22 @@ const FormInput = () => {
             questionSix,
             questionSeven,
             questionEight,
-            questionNine
-        });
+            questionNine,
+        };
+
+        try {
+            const response = await sendFormDataToFakeAPI(formData);
+    
+            if (response.id) {
+                console.log("Data berhasil dikirim dengan ID:", response.id);
+                await saveFormToStorage(formData); 
+            } else {
+                console.log('Gagal mengirim jawaban');
+            }
+        } catch (error) {
+            console.error('Error handling confirmation:', error);
+        }
+
         setQuestionOne('');
         setQuestionTwo('');
         setQuestionThree('');
@@ -46,6 +87,18 @@ const FormInput = () => {
     const handleCancelSendMessage = () => {
         setModalVisible(false);
     };
+
+    const saveFormToStorage = async (formData) => {
+        try {
+          const existingData = await AsyncStorage.getItem('formHistory');
+          const parsedData = existingData ? JSON.parse(existingData) : [];
+          const updatedData = [...parsedData, { formData, date: new Date() }];
+          
+          await AsyncStorage.setItem('formHistory', JSON.stringify(updatedData));
+        } catch (error) {
+          console.error('Error saving form data:', error);
+        }
+      };
 
     return (
         <View style={styles.container}>

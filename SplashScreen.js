@@ -57,8 +57,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#F16877', 
   },
   logo: {
-    width: 180, // Ganti dengan ukuran lebar logo yang sesuai
-    height: 180, // Ganti dengan ukuran tinggi logo yang sesuai
+    width: 180, 
+    height: 180, 
     marginBottom: 20,
   },
 });

@@ -16,12 +16,7 @@ export default function App() {
   
 
   useEffect(()=>{
-    const loadingDuration = 3000;
 
-    // Gunakan setTimeout untuk mensimulasikan proses loading
-    setTimeout(() => {
-      setLoading(false);
-    }, loadingDuration);
 
     Services.getUserAuth().then(resp=>{
       console.log(resp); 
@@ -35,9 +30,9 @@ export default function App() {
     })
   },[]) 
 
-  if (isLoading) {
-    return <SplashScreen />;
-  }
+  // if (isLoading) {
+  //   return <SplashScreen />;
+  // }
   return (
     <View style={styles.container}>
       

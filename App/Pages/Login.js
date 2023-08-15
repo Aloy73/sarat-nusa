@@ -84,7 +84,7 @@ export default function Login() {
             name: 'John Doe',
             picture:
               'https://cdn3d.iconscout.com/3d/premium/thumb/male-customer-call-service-portrait-6760890-5600697.png?f=webp',
-            class: 'rahul@gmail.com',
+            class: 'Users@users.com',
             id: 1,
           })
         }

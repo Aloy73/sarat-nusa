@@ -10,18 +10,17 @@ export default function Tugas() {
   const { userData, setUserData } = useContext(AuthContext)
   return (
     <View style={styles.container}>
-        <View>
-          <TouchableOpacity onPress={() => navigation.goBack()} >
-            <Image source={require('./../Assets/Images/panah.png')}
-              style={{ width: 20, height: 20, borderRadius: 100, marginTop: 30 }}
-            />
-          </TouchableOpacity>
-          <Text style={{ marginLeft: 95, marginTop: -20, fontSize: 20, fontWeight: 'bold' }}>Ujian Sarat</Text>
-        </View>
+      <View>
+        <TouchableOpacity onPress={() => navigation.goBack()} >
+          <Image source={require('./../Assets/Images/panah.png')}
+            style={{ width: 20, height: 20, borderRadius: 100, marginTop: 30 }}
+          />
+        </TouchableOpacity>
+        <Text style={{ marginLeft: 95, marginTop: -20, fontSize: 20, fontWeight: 'bold' }}>Ujian Sarat</Text>
+      </View>
     </View>
   )
 }
-
 
 const styles = StyleSheet.create({
   container: {
